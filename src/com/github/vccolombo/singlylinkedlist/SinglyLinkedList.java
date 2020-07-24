@@ -2,45 +2,66 @@ package com.github.vccolombo.singlylinkedlist;
 
 public class SinglyLinkedList<T> {
 
-    private T data = null;
-    private SinglyLinkedList<T> next = null;
+    private SinglyLinkedListNode head = null;
+    private SinglyLinkedListNode tail = null;
+    private int size;
 
-    public SinglyLinkedList() {
+    private class SinglyLinkedListNode {
+        private T data;
+        private SinglyLinkedListNode next;
 
+        public SinglyLinkedListNode(T data) {
+            this.data = data;
+            this.next = null;
+        }
     }
 
-    public T getData() {
-        return data;
+    // Get length of Linked List
+    public int size() {
+        return this.size;
     }
 
-    public SinglyLinkedList<T> getNext() {
-        return next;
-    }
-
-    public void setData(T value) {
-        data = value;
-    }
-
-    public void setNext(SinglyLinkedList<T> next) {
-        this.next = next;
-    }
-
-    public SinglyLinkedList<T> append(T value) {
-        // if head is null, insert here
-        if (data == null) {
-            data = value;
-            return this;
+    // Get element at the index position
+    public T get(int index) {
+        SinglyLinkedListNode result = this.head;
+        while(index > 0 && result != null) {
+            result = result.next;
+            index--;
         }
 
-        SinglyLinkedList<T> newNode = new SinglyLinkedList<>();
-        newNode.data = value;
-
-        SinglyLinkedList<T> last = this;
-        while (last.next != null) {
-            last = last.next;
+        if (result == null) {
+            return null;
         }
-        last.next = newNode;
 
-        return last.next;
+        return result.data;
+    }
+
+    // Get data from head (first element)
+    public T get() {
+        return this.head.data;
+    }
+
+    // Get data from head (first element)
+    public T getFirst() {
+        return get();
+    }
+
+    public T getLast() {
+        return this.tail.data;
+    }
+
+    // Append to end
+    public void add(T data) {
+        this.size++;
+
+        SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+        if (this.head == null) {
+            this.head = newNode;
+            this.tail = this.head;
+            return;
+        }
+
+        this.tail.next = newNode;
+        this.tail = this.tail.next;
     }
 }

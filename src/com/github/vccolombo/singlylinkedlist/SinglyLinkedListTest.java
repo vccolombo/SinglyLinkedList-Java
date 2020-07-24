@@ -5,61 +5,52 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SinglyLinkedListTest {
+
     @Test
-    public void dataIsNullOnLinkedListCreation() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        assertNull(linkedList.getData());
+    public void addFirstElement() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello World");
+
+        assertEquals("Hello World", linkedList.get());
     }
 
     @Test
-    public void nextIsNullOnLinkedListCreation() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        assertNull(linkedList.getNext());
+    public void addTwoElementsAndCheckTheFirst() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello World");
+        linkedList.add("42");
+
+        assertEquals("Hello World", linkedList.getFirst());
     }
 
     @Test
-    public void setDataInLinkedListNode() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        Integer value = 42;
-        linkedList.setData(value);
-        assertEquals(value, linkedList.getData());
+    public void addTwoElementsAndCheckTheSecond() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello World");
+        linkedList.add("42");
+
+        assertEquals("42", linkedList.get(1));
     }
 
     @Test
-    public void setNextInLinkedListNode() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        SinglyLinkedList<Integer> next = new SinglyLinkedList<>();
-        linkedList.setNext(next);
+    public void addMultipleElementsAndCheckTheLast() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello World");
+        linkedList.add("42");
+        linkedList.add("My nose is perfect");
+        linkedList.add("Hayasaka best girl");
 
-        assertEquals(next, linkedList.getNext());
+        assertEquals("Hayasaka best girl", linkedList.getLast());
     }
 
     @Test
-    public void InsertFirstNodeInLinkedList() {
+    public void addMultipleElementsAndCheckTheSize() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        Integer value = 42;
-        linkedList.append(value);
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+        linkedList.add(4);
 
-        assertEquals(value, linkedList.getData());
-    }
-
-    @Test
-    public void InsertTwoNodesMustNotChangeFirstNodeData() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.append(1);
-        linkedList.append(2);
-
-        assertEquals(1, linkedList.getData());
-    }
-
-    @Test
-    public void InsertMultipleNodes() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.append(1);
-        linkedList.append(2);
-        linkedList.append(3);
-        linkedList.append(4);
-
-        assertEquals(3, linkedList.getNext().getNext().getData());
+        assertEquals(4, linkedList.size());
     }
 }
