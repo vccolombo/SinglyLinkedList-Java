@@ -158,7 +158,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void TryToReplaceAnElementOutOfBounds() {
+    public void tryToReplaceAnElementOutOfBounds() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(0);
         linkedList.add(42);
@@ -168,5 +168,18 @@ class SinglyLinkedListTest {
                 IndexOutOfBoundsException.class, () -> linkedList.set(27, 1));
 
         assertEquals("Index must be between 0 and 2. Provided: 27", e.getMessage());
+    }
+
+    @Test
+    public void tryToGetAnElementOutOfBounds() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello");
+        linkedList.add("World");
+
+        IndexOutOfBoundsException e = assertThrows(
+                IndexOutOfBoundsException.class, () -> linkedList.get(2));
+
+        assertEquals("Index must be between 0 and 1. Provided: 2", e.getMessage());
+
     }
 }

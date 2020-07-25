@@ -48,10 +48,6 @@ public class SinglyLinkedList<T> {
         }
 
         SinglyLinkedListNode result = this.getNodeByIndex(index);
-        if (result == null) {
-            return null;
-        }
-
         return result.data;
     }
 
