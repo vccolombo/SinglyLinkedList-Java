@@ -36,8 +36,15 @@ public class SinglyLinkedList<T> {
     }
 
     private SinglyLinkedListNode getNodeByIndex(int index) {
+        if (this.isEmpty()) {
+            throw new IllegalStateException("List is empty");
+        }
+        if (index < 0 || index > this.size-1) {
+            throw new IndexOutOfBoundsException("Index must be between 0 and " + (this.size-1) + ". Provided: " + index);
+        }
+
         SinglyLinkedListNode result = this.head;
-        while(index > 0 && result != null) {
+        while(index > 0 && result.next != null) {
             result = result.next;
             index--;
         }
@@ -57,10 +64,6 @@ public class SinglyLinkedList<T> {
 
     // Get element at the index position
     public T get(int index) {
-        if (index < 0 || index > this.size-1) {
-            throw new IndexOutOfBoundsException("Index must be between 0 and " + (this.size-1) + ". Provided: " + index);
-        }
-
         SinglyLinkedListNode result = this.getNodeByIndex(index);
         return result.data;
     }
@@ -90,12 +93,10 @@ public class SinglyLinkedList<T> {
 
     // Add data to an specific position
     public void add(int index, T data) {
-        if (index < 0 || index > this.size) {
-            throw new IndexOutOfBoundsException("Index must be between 0 and " + this.size + ". Provided: " + index);
-        }
-
-        SinglyLinkedListNode insertAfter = this.getNodeByIndex(index-1);
-        insertAfter.next = new SinglyLinkedListNode(data, insertAfter.next);
+        SinglyLinkedListNode nodeAtIndex = this.getNodeByIndex(index);
+        SinglyLinkedListNode newNext = new SinglyLinkedListNode(nodeAtIndex.data, nodeAtIndex.next);
+        nodeAtIndex.data = data;
+        nodeAtIndex.next = newNext;
         this.size++;
     }
 
@@ -119,22 +120,27 @@ public class SinglyLinkedList<T> {
         this.size++;
     }
 
+    // Update the element at index
     public void set(int index, T data) {
-        if (index < 0 || index > this.size-1) {
-            throw new IndexOutOfBoundsException("Index must be between 0 and " + (this.size-1) + ". Provided: " + index);
-        }
-
         this.getNodeByIndex(index).data = data;
     }
 
-    public T remove() {
-        if (head == null) {
-            throw new IllegalStateException("Cannot remove from empty list");
-        }
+    // Remove element at index
+    public T remove(int index) {
+        SinglyLinkedListNode nodeToRemove = this.getNodeByIndex(index);
+        T removedData = nodeToRemove.remove();
 
-        T removedData = head.remove();
         this.size--;
-
         return removedData;
+    }
+
+    // Remove first element (head)
+    public T remove() {
+        return remove(0);
+    }
+
+    // Alias to remove()
+    public T pop() {
+        return remove();
     }
 }

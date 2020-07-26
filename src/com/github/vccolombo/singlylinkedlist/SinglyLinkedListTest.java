@@ -33,14 +33,16 @@ class SinglyLinkedListTest {
     @Test
     public void add_elementAtSpecificIndex_mustBeInsertedInCorrectLocation() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.add(0);
         linkedList.add(1);
-        linkedList.add(3);
+        linkedList.add(2);
         linkedList.add(4);
+        linkedList.add(5);
 
-        linkedList.add(2, 2);
+        linkedList.add(0, 0);
+        linkedList.add(3, 3);
 
-        assertEquals(2, linkedList.get(2));
+        assertEquals(0, linkedList.get(0));
+        assertEquals(3, linkedList.get(3));
     }
 
     @Test
@@ -50,10 +52,10 @@ class SinglyLinkedListTest {
 
         IndexOutOfBoundsException e;
         e = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(-1, 27));
-        assertEquals("Index must be between 0 and 1. Provided: -1", e.getMessage());
+        assertEquals("Index must be between 0 and 0. Provided: -1", e.getMessage());
 
-        e = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(3, 27));
-        assertEquals("Index must be between 0 and 1. Provided: 3", e.getMessage());
+        e = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(2, 27));
+        assertEquals("Index must be between 0 and 0. Provided: 2", e.getMessage());
     }
 
     @Test
@@ -99,17 +101,26 @@ class SinglyLinkedListTest {
     }
 
     @Test
+    public void set_listIsEmpty_throwIllegalStateException() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> linkedList.set(0, 1));
+
+        assertEquals("List is empty", e.getMessage());
+    }
+
+    @Test
     public void set_replaceAnElementOutOfBounds_throwOutOfBoundsException() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(0);
         linkedList.add(42);
         linkedList.add(2);
 
-        IndexOutOfBoundsException e1 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.set(27, 1));
+        IndexOutOfBoundsException e1 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.set(3, 1));
         IndexOutOfBoundsException e2 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.set(-1, 1));
 
         assertEquals("Index must be between 0 and 2. Provided: -1", e2.getMessage());
-        assertEquals("Index must be between 0 and 2. Provided: 27", e1.getMessage());
+        assertEquals("Index must be between 0 and 2. Provided: 3", e1.getMessage());
     }
 
     @Test
@@ -156,7 +167,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void remove_listIsNotEmpty_mustRemoveAndReturnTheFirstElement() {
+    public void removeFirst_listIsNotEmpty_mustRemoveAndReturnTheFirstElement() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(42);
         linkedList.add(27);
@@ -170,7 +181,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void remove_listWithOneElement_newHeadMustBeNull() {
+    public void removeFirst_listWithOneElement_newHeadMustBeNull() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(42);
 
@@ -180,11 +191,27 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void remove_listIsEmpty_mustThrowIllegalStateException() {
+    public void removeFirst_listIsEmpty_mustThrowIllegalStateException() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
 
         IllegalStateException e = assertThrows(IllegalStateException.class, linkedList::remove);
 
-        assertEquals("Cannot remove from empty list", e.getMessage());
+        assertEquals("List is empty", e.getMessage());
+    }
+
+    @Test
+    public void remove_elementInTheMiddle_mustRemoveCorrectElement() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+        linkedList.add(27);
+        linkedList.add(18);
+
+        Integer element = linkedList.remove(1);
+
+        assertEquals(27, element);
+        assertEquals(42, linkedList.getFirst());
+        assertEquals(18, linkedList.getLast());
+        assertEquals(18, linkedList.get(1));
+        assertEquals(2, linkedList.size());
     }
 }
