@@ -7,55 +7,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class SinglyLinkedListTest {
 
     @Test
-    public void addFirstElement() {
+    public void create_noElements_empty() {
         SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
-        linkedList.add("Hello World");
 
-        assertEquals("Hello World", linkedList.get());
+        assertNull(linkedList.get());
+        assertNull(linkedList.getFirst());
+        assertNull(linkedList.getLast());
+        assertTrue(linkedList.isEmpty());
+        assertEquals(0, linkedList.size());
     }
 
     @Test
-    public void addTwoElementsAndCheckTheFirst() {
+    public void add_multipleElements_AllMustBeAdded() {
         SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
         linkedList.add("Hello World");
         linkedList.add("42");
-
-        assertEquals("Hello World", linkedList.getFirst());
-    }
-
-    @Test
-    public void addTwoElementsAndCheckTheSecond() {
-        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
-        linkedList.add("Hello World");
-        linkedList.add("42");
-
-        assertEquals("42", linkedList.get(1));
-    }
-
-    @Test
-    public void addMultipleElementsAndCheckTheLast() {
-        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
-        linkedList.add("Hello World");
-        linkedList.add("42");
-        linkedList.add("My nose is perfect");
         linkedList.add("Hayasaka best girl");
 
-        assertEquals("Hayasaka best girl", linkedList.getLast());
+        assertEquals("Hello World", linkedList.get(0));
+        assertEquals("42", linkedList.get(1));
+        assertEquals("Hayasaka best girl", linkedList.get(2));
+        assertEquals(3, linkedList.size());
     }
 
     @Test
-    public void addMultipleElementsAndCheckTheSize() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.add(1);
-        linkedList.push(2);
-        linkedList.add(3);
-        linkedList.add(1, 4);
-
-        assertEquals(4, linkedList.size());
-    }
-
-    @Test
-    public void addElementAtSpecificIndex() {
+    public void add_elementAtSpecificIndex_mustBeInsertedInCorrectLocation() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(0);
         linkedList.add(1);
@@ -68,57 +44,20 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void throwOutOfBoundsExceptionIfAddIndexIsNegative() {
+    public void add_ifIndexIsOutOfBounds_throwOutOfBoundsException() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(42);
 
-        IndexOutOfBoundsException e = assertThrows(
-                IndexOutOfBoundsException.class, () -> linkedList.add(-1, 27));
-
+        IndexOutOfBoundsException e;
+        e = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(-1, 27));
         assertEquals("Index must be between 0 and 1. Provided: -1", e.getMessage());
-    }
 
-    @Test
-    public void throwOutOfBoundsExceptionIfAddIndexIsGreaterThanSize() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.add(42);
-
-        IndexOutOfBoundsException e = assertThrows(
-                IndexOutOfBoundsException.class, () -> linkedList.add(3, 27));
-
+        e = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(3, 27));
         assertEquals("Index must be between 0 and 1. Provided: 3", e.getMessage());
     }
 
     @Test
-    public void getMustReturnNullIfEmpty() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-
-        assertNull(linkedList.get());
-    }
-
-    @Test
-    public void getFirstMustReturnNullIfEmpty() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-
-        assertNull(linkedList.getFirst());
-    }
-
-    @Test
-    public void getLastMustReturnNullIfEmpty() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-
-        assertNull(linkedList.getLast());
-    }
-
-    @Test
-    public void isEmptyMustBeTrueIfEmpty() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-
-        assertTrue(linkedList.isEmpty());
-    }
-
-    @Test
-    public void isEmptyMustBeFalseIfNotEmpty() {
+    public void isEmpty_notEmpty_mustBeFalse() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(42);
 
@@ -126,7 +65,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void pushToBeginningAndGetFirstElement() {
+    public void push_multipleElements_firstElementMustBeTheLastPushed() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.push(2);
         linkedList.push(1);
@@ -136,7 +75,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void pushToBeginningAndGetSecondElement() {
+    public void push_multipleElements_secondElementMustBeTheSecondToLastPushed() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.push(2);
         linkedList.push(1);
@@ -146,7 +85,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void replaceAnElement() {
+    public void set_replaceAnElement_mustReplaceTheCorrectElement() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(0);
         linkedList.add(42);
@@ -154,32 +93,70 @@ class SinglyLinkedListTest {
 
         linkedList.set(1, 1);
 
+        assertEquals(0, linkedList.get(0));
         assertEquals(1, linkedList.get(1));
+        assertEquals(2, linkedList.get(2));
     }
 
     @Test
-    public void tryToReplaceAnElementOutOfBounds() {
+    public void set_replaceAnElementOutOfBounds_throwOutOfBoundsException() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(0);
         linkedList.add(42);
         linkedList.add(2);
 
-        IndexOutOfBoundsException e = assertThrows(
+        IndexOutOfBoundsException e1 = assertThrows(
                 IndexOutOfBoundsException.class, () -> linkedList.set(27, 1));
+        IndexOutOfBoundsException e2 = assertThrows(
+                IndexOutOfBoundsException.class, () -> linkedList.set(-1, 1));
 
-        assertEquals("Index must be between 0 and 2. Provided: 27", e.getMessage());
+        assertEquals("Index must be between 0 and 2. Provided: -1", e2.getMessage());
+        assertEquals("Index must be between 0 and 2. Provided: 27", e1.getMessage());
     }
 
     @Test
-    public void tryToGetAnElementOutOfBounds() {
+    public void get_ifMultipleElementsInList_mustGetTheCorrectIndex() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello");
+        linkedList.add("World");
+        linkedList.add("Hayasaka best girl");
+
+        assertEquals("World", linkedList.get(1));
+    }
+
+    @Test
+    public void getFirst_ifMultipleElementsInList_mustGetTheFirstElement() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello");
+        linkedList.add("World");
+        linkedList.add("Hayasaka best girl");
+
+        assertEquals("Hello", linkedList.getFirst());
+    }
+
+    @Test
+    public void getLast_ifMultipleElementsInList_mustGetTheLastElement() {
+        SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
+        linkedList.add("Hello");
+        linkedList.add("World");
+        linkedList.add("Hayasaka best girl");
+
+        assertEquals("Hayasaka best girl", linkedList.getLast());
+    }
+
+    @Test
+    public void get_elementOutOfBounds_throwOutOfBoundsException() {
         SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
         linkedList.add("Hello");
         linkedList.add("World");
 
-        IndexOutOfBoundsException e = assertThrows(
+        IndexOutOfBoundsException e1 = assertThrows(
                 IndexOutOfBoundsException.class, () -> linkedList.get(2));
+        IndexOutOfBoundsException e2 = assertThrows(
+                IndexOutOfBoundsException.class, () -> linkedList.get(-1));
 
-        assertEquals("Index must be between 0 and 1. Provided: 2", e.getMessage());
+        assertEquals("Index must be between 0 and 1. Provided: 2", e1.getMessage());
+        assertEquals("Index must be between 0 and 1. Provided: -1", e2.getMessage());
 
     }
 }
