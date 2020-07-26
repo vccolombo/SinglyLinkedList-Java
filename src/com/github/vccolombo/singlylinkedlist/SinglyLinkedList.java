@@ -19,6 +19,20 @@ public class SinglyLinkedList<T> {
             this.data = data;
             this.next = next;
         }
+
+        public T remove() {
+            T removedData = this.data;
+
+            if (this.next == null) {
+                this.data = null;
+                this.next = null;
+            } else {
+                this.data = this.next.data;
+                this.next = this.next.next;
+            }
+
+            return removedData;
+        }
     }
 
     private SinglyLinkedListNode getNodeByIndex(int index) {
@@ -111,5 +125,16 @@ public class SinglyLinkedList<T> {
         }
 
         this.getNodeByIndex(index).data = data;
+    }
+
+    public T remove() {
+        if (head == null) {
+            throw new IllegalStateException("Cannot remove from empty list");
+        }
+
+        T removedData = head.remove();
+        this.size--;
+
+        return removedData;
     }
 }

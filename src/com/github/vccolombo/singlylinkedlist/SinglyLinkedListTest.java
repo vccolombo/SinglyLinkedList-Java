@@ -57,7 +57,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void isEmpty_notEmpty_mustBeFalse() {
+    public void isEmpty_ifNotEmpty_mustBeFalse() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(42);
 
@@ -105,10 +105,8 @@ class SinglyLinkedListTest {
         linkedList.add(42);
         linkedList.add(2);
 
-        IndexOutOfBoundsException e1 = assertThrows(
-                IndexOutOfBoundsException.class, () -> linkedList.set(27, 1));
-        IndexOutOfBoundsException e2 = assertThrows(
-                IndexOutOfBoundsException.class, () -> linkedList.set(-1, 1));
+        IndexOutOfBoundsException e1 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.set(27, 1));
+        IndexOutOfBoundsException e2 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.set(-1, 1));
 
         assertEquals("Index must be between 0 and 2. Provided: -1", e2.getMessage());
         assertEquals("Index must be between 0 and 2. Provided: 27", e1.getMessage());
@@ -150,13 +148,43 @@ class SinglyLinkedListTest {
         linkedList.add("Hello");
         linkedList.add("World");
 
-        IndexOutOfBoundsException e1 = assertThrows(
-                IndexOutOfBoundsException.class, () -> linkedList.get(2));
-        IndexOutOfBoundsException e2 = assertThrows(
-                IndexOutOfBoundsException.class, () -> linkedList.get(-1));
+        IndexOutOfBoundsException e1 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.get(2));
+        IndexOutOfBoundsException e2 = assertThrows(IndexOutOfBoundsException.class, () -> linkedList.get(-1));
 
         assertEquals("Index must be between 0 and 1. Provided: 2", e1.getMessage());
         assertEquals("Index must be between 0 and 1. Provided: -1", e2.getMessage());
+    }
 
+    @Test
+    public void remove_listIsNotEmpty_mustRemoveAndReturnTheFirstElement() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+        linkedList.add(27);
+        linkedList.add(18);
+
+        Integer element = linkedList.remove();
+
+        assertEquals(42, element);
+        assertEquals(27, linkedList.getFirst());
+        assertEquals(2, linkedList.size());
+    }
+
+    @Test
+    public void remove_listWithOneElement_newHeadMustBeNull() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+
+        linkedList.remove();
+
+        assertNull(linkedList.get());
+    }
+
+    @Test
+    public void remove_listIsEmpty_mustThrowIllegalStateException() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+
+        IllegalStateException e = assertThrows(IllegalStateException.class, linkedList::remove);
+
+        assertEquals("Cannot remove from empty list", e.getMessage());
     }
 }
