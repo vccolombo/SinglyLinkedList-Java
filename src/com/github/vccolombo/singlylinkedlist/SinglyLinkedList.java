@@ -153,6 +153,7 @@ public class SinglyLinkedList<T> {
         return remove();
     }
 
+    // Remove element at tail
     public T removeLast() {
         T removedData = tail.data;
         // Set new last element to the second to last element
@@ -165,8 +166,9 @@ public class SinglyLinkedList<T> {
         return removedData;
     }
 
+    // Empty list
     public void clear() {
-        while (this.size != 0) {
+        while (this.size > 0) {
             this.remove();
         }
     }
