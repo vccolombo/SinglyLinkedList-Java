@@ -216,6 +216,35 @@ class SinglyLinkedListTest {
     }
 
     @Test
+    public void remove_elementInTheBeginning_mustRemoveCorrectElement() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+
+        Integer element = linkedList.remove(0);
+
+        assertEquals(42, element);
+        assertNull(linkedList.getFirst());
+        assertNull(linkedList.getLast());
+        assertEquals(0, linkedList.size());
+    }
+
+    @Test
+    public void remove_elementInTheEnd_mustRemoveCorrectElement() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+        linkedList.add(27);
+        linkedList.add(18);
+
+        Integer element = linkedList.remove(2);
+
+        assertEquals(18, element);
+        assertEquals(42, linkedList.getFirst());
+        assertEquals(27, linkedList.getLast());
+        assertEquals(27, linkedList.get(1));
+        assertEquals(2, linkedList.size());
+    }
+
+    @Test
     public void removeLast_listHasMultipleValues_mustRemoveTheLastElement() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
         linkedList.add(42);
@@ -227,7 +256,20 @@ class SinglyLinkedListTest {
         assertEquals(18, element);
         assertEquals(42, linkedList.getFirst());
         assertEquals(27, linkedList.getLast());
-        assertEquals(27, linkedList.getLast());
         assertEquals(2, linkedList.size());
+    }
+
+    @Test
+    public void clear_listWithMultipleValues_mustClearTheList() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+        linkedList.add(27);
+        linkedList.add(18);
+
+        linkedList.clear();
+
+        assertNull(linkedList.getFirst());
+        assertNull(linkedList.getLast());
+        assertEquals(0, linkedList.size());
     }
 }

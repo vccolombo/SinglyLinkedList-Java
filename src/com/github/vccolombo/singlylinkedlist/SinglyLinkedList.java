@@ -19,20 +19,6 @@ public class SinglyLinkedList<T> {
             this.data = data;
             this.next = next;
         }
-
-        public T remove() {
-            T removedData = this.data;
-
-            if (this.next == null) {
-                this.data = null;
-                this.next = null;
-            } else {
-                this.data = this.next.data;
-                this.next = this.next.next;
-            }
-
-            return removedData;
-        }
     }
 
     private SinglyLinkedListNode getNodeByIndex(int index) {
@@ -125,18 +111,41 @@ public class SinglyLinkedList<T> {
         this.getNodeByIndex(index).data = data;
     }
 
-    // Remove element at index
-    public T remove(int index) {
-        SinglyLinkedListNode nodeToRemove = this.getNodeByIndex(index);
-        T removedData = nodeToRemove.remove();
+    // Remove first element (head)
+    public T remove() {
+        if (this.isEmpty()) {
+            throw new IllegalStateException("List is empty");
+        }
+
+        T removedData = head.data;
+        if (head.next == null) {
+            head = null;
+            tail = null;
+        } else {
+            head.data = head.next.data;
+            head.next = head.next.next;
+        }
 
         this.size--;
         return removedData;
     }
 
-    // Remove first element (head)
-    public T remove() {
-        return remove(0);
+    // Remove element at index
+    public T remove(int index) {
+        if (index == 0) {
+            return remove();
+        }
+        if (index == this.size-1) {
+            return removeLast();
+        }
+
+        SinglyLinkedListNode previousNode = this.getNodeByIndex(index-1);
+
+        T removedData = previousNode.next.data;
+        previousNode.next = previousNode.next.next;
+
+        this.size--;
+        return removedData;
     }
 
     // Alias to remove()
@@ -154,5 +163,11 @@ public class SinglyLinkedList<T> {
 
         this.size--;
         return removedData;
+    }
+
+    public void clear() {
+        while (this.size != 0) {
+            this.remove();
+        }
     }
 }
