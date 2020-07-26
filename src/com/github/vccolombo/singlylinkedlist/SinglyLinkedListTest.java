@@ -214,4 +214,20 @@ class SinglyLinkedListTest {
         assertEquals(18, linkedList.get(1));
         assertEquals(2, linkedList.size());
     }
+
+    @Test
+    public void removeLast_listHasMultipleValues_mustRemoveTheLastElement() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+        linkedList.add(27);
+        linkedList.add(18);
+
+        Integer element = linkedList.removeLast();
+
+        assertEquals(18, element);
+        assertEquals(42, linkedList.getFirst());
+        assertEquals(27, linkedList.getLast());
+        assertEquals(27, linkedList.getLast());
+        assertEquals(2, linkedList.size());
+    }
 }

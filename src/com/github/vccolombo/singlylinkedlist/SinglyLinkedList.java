@@ -143,4 +143,16 @@ public class SinglyLinkedList<T> {
     public T pop() {
         return remove();
     }
+
+    public T removeLast() {
+        T removedData = tail.data;
+        // Set new last element to the second to last element
+        this.tail = this.getNodeByIndex(this.size-2);
+
+        // remove old last element
+        this.tail.next = null;
+
+        this.size--;
+        return removedData;
+    }
 }
