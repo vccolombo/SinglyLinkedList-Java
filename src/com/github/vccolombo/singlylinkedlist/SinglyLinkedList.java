@@ -56,9 +56,7 @@ public class SinglyLinkedList<T> {
 
     // Get data from the first element
     public T get() {
-        if (this.head == null) {
-            return null;
-        }
+        if (this.isEmpty()) throw new IllegalStateException("List is empty");
 
         return this.head.data;
     }
@@ -70,9 +68,7 @@ public class SinglyLinkedList<T> {
 
     // Get data from the last element
     public T getLast() {
-        if (this.tail == null) {
-            return null;
-        }
+        if (this.isEmpty()) throw new IllegalStateException("List is empty");
 
         return this.tail.data;
     }

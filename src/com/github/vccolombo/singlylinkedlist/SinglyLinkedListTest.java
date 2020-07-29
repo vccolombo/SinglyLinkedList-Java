@@ -10,9 +10,11 @@ class SinglyLinkedListTest {
     public void create_noElements_empty() {
         SinglyLinkedList<String> linkedList = new SinglyLinkedList<>();
 
-        assertNull(linkedList.get());
-        assertNull(linkedList.getFirst());
-        assertNull(linkedList.getLast());
+        IllegalStateException e1 = assertThrows(IllegalStateException.class, linkedList::getFirst);
+        IllegalStateException e2 = assertThrows(IllegalStateException.class, linkedList::getLast);
+
+        assertEquals("List is empty", e1.getMessage());
+        assertEquals("List is empty", e2.getMessage());
         assertTrue(linkedList.isEmpty());
         assertEquals(0, linkedList.size());
     }
@@ -191,16 +193,6 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    public void removeFirst_listWithOneElement_newHeadMustBeNull() {
-        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.add(42);
-
-        linkedList.remove();
-
-        assertNull(linkedList.get());
-    }
-
-    @Test
     public void removeFirst_listIsEmpty_mustThrowIllegalStateException() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
 
@@ -233,8 +225,6 @@ class SinglyLinkedListTest {
         Integer element = linkedList.remove(0);
 
         assertEquals(42, element);
-        assertNull(linkedList.getFirst());
-        assertNull(linkedList.getLast());
         assertEquals(0, linkedList.size());
     }
 
@@ -278,8 +268,6 @@ class SinglyLinkedListTest {
 
         linkedList.clear();
 
-        assertNull(linkedList.getFirst());
-        assertNull(linkedList.getLast());
         assertEquals(0, linkedList.size());
     }
 }
