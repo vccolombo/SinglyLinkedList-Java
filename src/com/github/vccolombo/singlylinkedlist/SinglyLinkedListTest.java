@@ -35,10 +35,10 @@ class SinglyLinkedListTest {
     @Test
     public void add_elementAtSpecificIndex_mustBeInsertedInCorrectLocation() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.add(1);
-        linkedList.add(2);
-        linkedList.add(4);
-        linkedList.add(5);
+        linkedList.addLast(1);
+        linkedList.addLast(2);
+        linkedList.addLast(4);
+        linkedList.addLast(5);
 
         linkedList.add(0, 0);
         linkedList.add(3, 3);
@@ -71,9 +71,9 @@ class SinglyLinkedListTest {
     @Test
     public void push_multipleElements_firstElementMustBeTheLastPushed() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.push(2);
-        linkedList.push(1);
-        linkedList.push(0);
+        linkedList.addFirst(2);
+        linkedList.addFirst(1);
+        linkedList.addFirst(0);
 
         assertEquals(0, linkedList.getFirst());
     }
@@ -81,9 +81,9 @@ class SinglyLinkedListTest {
     @Test
     public void push_multipleElements_secondElementMustBeTheSecondToLastPushed() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.push(2);
-        linkedList.push(1);
-        linkedList.push(0);
+        linkedList.addFirst(2);
+        linkedList.addFirst(1);
+        linkedList.addFirst(0);
 
         assertEquals(2, linkedList.getLast());
     }
@@ -91,9 +91,9 @@ class SinglyLinkedListTest {
     @Test
     public void push_multipleElements_lastElementMustBeTail() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
-        linkedList.push(2);
-        linkedList.push(1);
-        linkedList.push(0);
+        linkedList.addFirst(2);
+        linkedList.addFirst(1);
+        linkedList.addFirst(0);
 
         assertEquals(1, linkedList.get(1));
     }
@@ -185,7 +185,7 @@ class SinglyLinkedListTest {
         linkedList.add(27);
         linkedList.add(18);
 
-        Integer element = linkedList.remove();
+        Integer element = linkedList.removeFirst();
 
         assertEquals(42, element);
         assertEquals(27, linkedList.getFirst());
@@ -196,7 +196,7 @@ class SinglyLinkedListTest {
     public void removeFirst_listIsEmpty_mustThrowIllegalStateException() {
         SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
 
-        IllegalStateException e = assertThrows(IllegalStateException.class, linkedList::remove);
+        IllegalStateException e = assertThrows(IllegalStateException.class, linkedList::removeFirst);
 
         assertEquals("List is empty", e.getMessage());
     }
@@ -242,6 +242,17 @@ class SinglyLinkedListTest {
         assertEquals(27, linkedList.getLast());
         assertEquals(27, linkedList.get(1));
         assertEquals(2, linkedList.size());
+    }
+
+    @Test
+    public void removeLast_listHasOneValue_MustNotThrowError() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.add(42);
+
+        Integer element = linkedList.removeLast();
+
+        assertEquals(42, element);
+        assertTrue(linkedList.isEmpty());
     }
 
     @Test
