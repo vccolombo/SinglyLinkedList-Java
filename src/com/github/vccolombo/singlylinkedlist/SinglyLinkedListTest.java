@@ -83,6 +83,16 @@ class SinglyLinkedListTest {
         linkedList.push(1);
         linkedList.push(0);
 
+        assertEquals(2, linkedList.getLast());
+    }
+
+    @Test
+    public void push_multipleElements_lastElementMustBeTail() {
+        SinglyLinkedList<Integer> linkedList = new SinglyLinkedList<>();
+        linkedList.push(2);
+        linkedList.push(1);
+        linkedList.push(0);
+
         assertEquals(1, linkedList.get(1));
     }
 

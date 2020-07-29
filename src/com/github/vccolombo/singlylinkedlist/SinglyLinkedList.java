@@ -2,26 +2,26 @@ package com.github.vccolombo.singlylinkedlist;
 
 public class SinglyLinkedList<T> {
 
-    private SinglyLinkedListNode head = null;
-    private SinglyLinkedListNode tail = null;
+    private Node head = null;
+    private Node tail = null;
     private int size;
 
-    private class SinglyLinkedListNode {
+    private class Node {
         private T data;
-        private SinglyLinkedListNode next;
+        private Node next;
 
-        public SinglyLinkedListNode(T data) {
+        public Node(T data) {
             this.data = data;
             this.next = null;
         }
 
-        public SinglyLinkedListNode(T data, SinglyLinkedListNode next) {
+        public Node(T data, Node next) {
             this.data = data;
             this.next = next;
         }
     }
 
-    private SinglyLinkedListNode getNodeByIndex(int index) {
+    private Node getNodeByIndex(int index) {
         if (this.isEmpty()) {
             throw new IllegalStateException("List is empty");
         }
@@ -29,7 +29,7 @@ public class SinglyLinkedList<T> {
             throw new IndexOutOfBoundsException("Index must be between 0 and " + (this.size-1) + ". Provided: " + index);
         }
 
-        SinglyLinkedListNode result = this.head;
+        Node result = this.head;
         while(index > 0 && result.next != null) {
             result = result.next;
             index--;
@@ -50,7 +50,7 @@ public class SinglyLinkedList<T> {
 
     // Get element at the index position
     public T get(int index) {
-        SinglyLinkedListNode result = this.getNodeByIndex(index);
+        Node result = this.getNodeByIndex(index);
         return result.data;
     }
 
@@ -79,8 +79,8 @@ public class SinglyLinkedList<T> {
 
     // Add data to an specific position
     public void add(int index, T data) {
-        SinglyLinkedListNode nodeAtIndex = this.getNodeByIndex(index);
-        SinglyLinkedListNode newNext = new SinglyLinkedListNode(nodeAtIndex.data, nodeAtIndex.next);
+        Node nodeAtIndex = this.getNodeByIndex(index);
+        Node newNext = new Node(nodeAtIndex.data, nodeAtIndex.next);
         nodeAtIndex.data = data;
         nodeAtIndex.next = newNext;
         this.size++;
@@ -88,7 +88,7 @@ public class SinglyLinkedList<T> {
 
     // Append to the end
     public void add(T data) {
-        SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+        Node newNode = new Node(data);
         if (this.head == null) {
             this.head = newNode;
             this.tail = this.head;
@@ -100,10 +100,25 @@ public class SinglyLinkedList<T> {
         this.size++;
     }
 
+    // Alias to add(T data)
+    public void addLast(T data) {
+        this.add(data);
+    }
+
     // Insert in the beginning
     public void push(T data) {
-        head = new SinglyLinkedListNode(data, head);
+        if (this.isEmpty()) {
+            head = tail = new Node(data, head);
+        } else {
+            head = new Node(data, head);
+        }
+
         this.size++;
+    }
+
+    // Alias to push(T data)
+    public void addFirst(T data) {
+        this.push(data);
     }
 
     // Update the element at index
@@ -139,7 +154,7 @@ public class SinglyLinkedList<T> {
             return removeLast();
         }
 
-        SinglyLinkedListNode previousNode = this.getNodeByIndex(index-1);
+        Node previousNode = this.getNodeByIndex(index-1);
 
         T removedData = previousNode.next.data;
         previousNode.next = previousNode.next.next;
@@ -168,7 +183,7 @@ public class SinglyLinkedList<T> {
 
     // Empty list
     public void clear() {
-        while (this.size > 0) {
+        while (!this.isEmpty()) {
             this.remove();
         }
     }
